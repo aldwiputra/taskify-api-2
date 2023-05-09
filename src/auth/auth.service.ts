@@ -18,6 +18,10 @@ export class AuthService {
           username: input.username,
           hash_password: hash,
         },
+        select: {
+          id: true,
+          username: true,
+        },
       });
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
