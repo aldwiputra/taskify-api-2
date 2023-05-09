@@ -13,6 +13,6 @@ export class AuthController {
 
   @Post('login')
   async login(@Req() req): Promise<void> {
-    console.log(`User: ${req.user.username} is logging in`);
+    console.log(req.session.id);
   }
 }
