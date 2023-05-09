@@ -32,4 +32,17 @@ export class AuthService {
       throw error;
     }
   }
+
+  async validateCredentials(
+    username: string,
+    password: string,
+  ): Promise<boolean> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        username: username,
+      },
+    });
+
+    return await argon.verify(user.hash_password, password);
+  }
 }
