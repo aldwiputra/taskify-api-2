@@ -10,10 +10,13 @@ import {
   Put,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { PatchTaskInput, PutTaskInput, TaskInput } from './dto/task.dto';
 import { TaskService } from './task.service';
+import { AuthenticatedGuard } from 'src/guard/authenticated.guard';
 
+@UseGuards(AuthenticatedGuard)
 @Controller('tasks')
 export class TasksController {
   constructor(private taskService: TaskService) {}
