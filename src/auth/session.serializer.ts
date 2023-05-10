@@ -21,6 +21,10 @@ export class SessionSerializer extends PassportSerializer {
       where: {
         id: userId,
       },
+      select: {
+        id: true,
+        username: true,
+      },
     });
 
     done(null, user);

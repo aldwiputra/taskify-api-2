@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Session, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { UserInput } from 'src/user/dto/user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from 'src/guard/local.guard';
@@ -14,7 +14,12 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Session() session: Record<string, any>): Promise<void> {
-    console.log(session.id);
+  async login(@Req() req): Promise<{ success: boolean; message: string }> {
+    console.log(req.session.id);
+
+    return {
+      success: true,
+      message: `Succesfully login with username: ${req.user.username}`,
+    };
   }
 }

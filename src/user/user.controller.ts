@@ -9,7 +9,7 @@ export class UserController {
   @UseGuards(AuthenticatedGuard)
   @Get()
   getUser(@Req() req) {
-    console.log(req.user);
+    console.log(req.session);
     return this.prisma.user.findFirst({
       where: {
         id: req.user.id,
