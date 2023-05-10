@@ -4,6 +4,7 @@ import { UserInput } from 'src/user/dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -36,13 +37,13 @@ export class AuthService {
   async validateCredentials(
     username: string,
     password: string,
-  ): Promise<boolean> {
+  ): Promise<User | null> {
     const user = await this.prisma.user.findFirst({
       where: {
         username: username,
       },
     });
 
-    return await argon.verify(user.hash_password, password);
+    return (await argon.verify(user.hash_password, password)) ? user : null;
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Session } from '@nestjs/common';
 import { UserInput } from 'src/user/dto/user.dto';
 import { AuthService } from './auth.service';
 
@@ -12,7 +12,7 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Req() req): Promise<void> {
-    console.log(req.session.id);
+  async login(@Session() session: Record<string, any>): Promise<void> {
+    console.log(session.id);
   }
 }
