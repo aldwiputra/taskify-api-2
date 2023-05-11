@@ -41,17 +41,28 @@ export class TasksController {
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.taskService.remove(id);
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: AlteredUser,
+  ) {
+    return this.taskService.remove(id, user.id);
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() input: PutTaskInput) {
-    return this.taskService.update(id, input);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() input: PutTaskInput,
+    @CurrentUser() user: AlteredUser,
+  ) {
+    return this.taskService.update(id, input, user.id);
   }
 
   @Patch(':id')
-  patch(@Param('id', ParseIntPipe) id: number, @Body() input: PatchTaskInput) {
-    return this.taskService.patch(id, input);
+  patch(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() input: PatchTaskInput,
+    @CurrentUser() user: AlteredUser,
+  ) {
+    return this.taskService.patch(id, input, user.id);
   }
 }

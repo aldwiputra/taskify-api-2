@@ -60,8 +60,16 @@ export class TaskService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number, userId: number) {
     try {
+      const user = await this.prisma.task.findFirst({ where: { id: id } });
+
+      if (user.userId !== userId) {
+        throw new UnauthorizedException(
+          `Not authorized to delete task of id: ${id}`,
+        );
+      }
+
       return await this.prisma.task.delete({
         where: {
           id: id,
@@ -75,8 +83,16 @@ export class TaskService {
     }
   }
 
-  async update(id: number, input: PutTaskInput) {
+  async update(id: number, input: PutTaskInput, userId: number) {
     try {
+      const user = await this.prisma.task.findFirst({ where: { id: id } });
+
+      if (user.userId !== userId) {
+        throw new UnauthorizedException(
+          `Not authorized to update task of id: ${id}`,
+        );
+      }
+
       return await this.prisma.task.update({
         where: {
           id: id,
@@ -91,8 +107,16 @@ export class TaskService {
     }
   }
 
-  async patch(id: number, input: PatchTaskInput) {
+  async patch(id: number, input: PatchTaskInput, userId: number) {
     try {
+      const user = await this.prisma.task.findFirst({ where: { id: id } });
+
+      if (user.userId !== userId) {
+        throw new UnauthorizedException(
+          `Not authorized to patch task of id: ${id}`,
+        );
+      }
+
       return await this.prisma.task.update({
         where: {
           id: id,
