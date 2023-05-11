@@ -3,6 +3,7 @@ import {
   Controller,
   Post,
   Req,
+  Res,
   Session,
   UseGuards,
 } from '@nestjs/common';
@@ -10,6 +11,8 @@ import { UserInput } from 'src/user/dto/user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from 'src/guard/local.guard';
 import { Session as SessionType } from 'express-session';
+import { Response } from 'express';
+import { UnauthenticatedGuard } from 'src/guard/unauthenticated.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -20,11 +23,9 @@ export class AuthController {
     return this.authService.createUser(input);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(UnauthenticatedGuard, LocalAuthGuard)
   @Post('login')
   async login(@Req() req): Promise<{ success: boolean; message: string }> {
-    console.log(req.session.id);
-
     return {
       success: true,
       message: `Succesfully login with username: ${req.user.username}`,
@@ -32,16 +33,17 @@ export class AuthController {
   }
 
   @Post('logout')
-  logout(@Session() session: SessionType) {
+  logout(@Session() session: SessionType, @Res() res: Response) {
     session.destroy((err: any) => {
       if (err) {
         throw new Error(err);
       }
     });
 
-    return {
+    res.clearCookie('connect.sid');
+    res.send({
       success: true,
       message: 'Succesfully logout',
-    };
+    });
   }
 }
