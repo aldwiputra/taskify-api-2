@@ -32,15 +32,18 @@ export class TaskService {
     return task;
   }
 
-  async create(input: TaskInput) {
+  async create(input: TaskInput, userId: number) {
     try {
       return await this.prisma.task.create({
-        data: input,
+        data: {
+          ...input,
+          userId,
+        },
       });
     } catch (error) {
       if (error.code === 'P2003') {
         throw new NotFoundException(
-          `User with id: ${input.userId} doesn't exist. Add a valid userId.`,
+          `User with id: ${userId} doesn't exist. Add a valid userId.`,
         );
       }
       throw error;

@@ -33,8 +33,8 @@ export class TasksController {
   }
 
   @Post()
-  create(@Body() input: TaskInput) {
-    return this.taskService.create(input);
+  create(@Body() input: TaskInput, @CurrentUser() user: AlteredUser) {
+    return this.taskService.create(input, user.id);
   }
 
   @Delete(':id')

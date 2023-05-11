@@ -17,10 +17,6 @@ export class TaskInput {
   @IsNotEmpty()
   @IsBoolean()
   done: boolean;
-
-  @IsNotEmpty()
-  @IsNumber()
-  userId: number;
 }
 
 export class PutTaskInput {
