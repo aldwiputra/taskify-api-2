@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { CurrentUser } from 'src/decorators/user.decorator';
 import { AuthenticatedGuard } from 'src/guard/authenticated.guard';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { AlteredUser } from 'src/types/global.type';
 
 @Controller('users')
 export class UserController {
@@ -10,8 +10,8 @@ export class UserController {
 
   @UseGuards(AuthenticatedGuard)
   @Get('me')
-  getUser(@CurrentUser() currentUser: Pick<User, 'id' | 'username'>) {
-    return this.prisma.user.findFirst({
+  async getUser(@CurrentUser() currentUser: AlteredUser) {
+    return await this.prisma.user.findFirst({
       where: {
         id: currentUser.id,
       },

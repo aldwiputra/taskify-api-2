@@ -6,9 +6,10 @@ import { PatchTaskInput, PutTaskInput, TaskInput } from './dto/task.dto';
 export class TaskService {
   constructor(private prisma: PrismaService) {}
 
-  findAll(query: string) {
+  findAll(query: string, userId: number) {
     return this.prisma.task.findMany({
       where: {
+        userId: userId,
         title: {
           contains: query,
           mode: 'insensitive',
