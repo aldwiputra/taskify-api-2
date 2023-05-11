@@ -28,8 +28,11 @@ export class TasksController {
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number) {
-    return this.taskService.findById(id);
+  findById(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: AlteredUser,
+  ) {
+    return this.taskService.findById(id, user.id);
   }
 
   @Post()

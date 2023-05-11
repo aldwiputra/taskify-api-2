@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PatchTaskInput, PutTaskInput, TaskInput } from './dto/task.dto';
 
@@ -18,12 +22,18 @@ export class TaskService {
     });
   }
 
-  async findById(id: number) {
+  async findById(id: number, userId: number) {
     const task = await this.prisma.task.findFirst({
       where: {
         id: id,
       },
     });
+
+    if (task.userId !== userId) {
+      throw new UnauthorizedException(
+        `Not authorized to get task of id: ${id}`,
+      );
+    }
 
     if (task === null) {
       throw new NotFoundException(`Task with id: ${id} doesn't exist`);
