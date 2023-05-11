@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CurrentUser } from 'src/decorators/user.decorator';
 import { AuthenticatedGuard } from 'src/guard/authenticated.guard';
@@ -20,5 +20,12 @@ export class UserController {
         username: true,
       },
     });
+  }
+
+  @Get()
+  greetStranger() {
+    return {
+      message: 'Hello, Stranger!',
+    };
   }
 }
