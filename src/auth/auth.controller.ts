@@ -1,7 +1,15 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Req,
+  Session,
+  UseGuards,
+} from '@nestjs/common';
 import { UserInput } from 'src/user/dto/user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from 'src/guard/local.guard';
+import { Session as SessionType } from 'express-session';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +28,20 @@ export class AuthController {
     return {
       success: true,
       message: `Succesfully login with username: ${req.user.username}`,
+    };
+  }
+
+  @Post('logout')
+  logout(@Session() session: SessionType) {
+    session.destroy((err: any) => {
+      if (err) {
+        throw new Error(err);
+      }
+    });
+
+    return {
+      success: true,
+      message: 'Succesfully logout',
     };
   }
 }
