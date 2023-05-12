@@ -1,9 +1,5 @@
 import * as argon from 'argon2';
-import {
-  Body,
-  ForbiddenException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ForbiddenException } from '@nestjs/common';
 import { UserInput } from 'src/user/dto/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
@@ -14,7 +10,7 @@ import { User } from '@prisma/client';
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  async createUser(@Body() input: UserInput) {
+  async createUser(input: UserInput) {
     const hash = await argon.hash(input.password);
 
     try {
@@ -49,7 +45,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Incorrect user or password');
+      return null;
     }
 
     return (await argon.verify(user.hash_password, password)) ? user : null;

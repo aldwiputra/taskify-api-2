@@ -62,19 +62,21 @@ export class TaskService {
 
   async remove(id: number, userId: number) {
     try {
-      const user = await this.prisma.task.findFirst({ where: { id: id } });
-
-      if (user.userId !== userId) {
-        throw new UnauthorizedException(
-          `Not authorized to delete task of id: ${id}`,
-        );
-      }
-
-      return await this.prisma.task.delete({
+      const user = await this.prisma.task.deleteMany({
         where: {
           id: id,
+          userId: userId,
         },
       });
+
+      if (!user.count) {
+        throw new NotFoundException(`Could not find the task with id: ${id}`);
+      }
+
+      return {
+        success: true,
+        message: `Task with id: ${id} deleted succesfully.`,
+      };
     } catch (error) {
       if (error.code === 'P2025') {
         throw new NotFoundException(error.meta.cause);
@@ -85,12 +87,10 @@ export class TaskService {
 
   async update(id: number, input: PutTaskInput, userId: number) {
     try {
-      const user = await this.prisma.task.findFirst({ where: { id: id } });
+      const task = await this.prisma.task.findFirst({ where: { id: id } });
 
-      if (user.userId !== userId) {
-        throw new UnauthorizedException(
-          `Not authorized to update task of id: ${id}`,
-        );
+      if (task && task.userId !== userId) {
+        throw new NotFoundException(`Could not find the task with id: ${id}`);
       }
 
       return await this.prisma.task.update({
@@ -109,17 +109,16 @@ export class TaskService {
 
   async patch(id: number, input: PatchTaskInput, userId: number) {
     try {
-      const user = await this.prisma.task.findFirst({ where: { id: id } });
+      const task = await this.prisma.task.findFirst({ where: { id: id } });
 
-      if (user.userId !== userId) {
-        throw new UnauthorizedException(
-          `Not authorized to patch task of id: ${id}`,
-        );
+      if (task && task.userId !== userId) {
+        throw new NotFoundException(`Could not find the task with id: ${id}`);
       }
 
-      return await this.prisma.task.update({
+      return await this.prisma.task.updateMany({
         where: {
           id: id,
+          userId: userId,
         },
         data: input,
       });
