@@ -23,21 +23,28 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+## Authentication Flow
+
+### Register
+
+![Register-Sequence-Diagram](/public/assets/register-sequence.png)
+
+### Login
+
+![Login-Sequence-Diagram](/public/assets/login-sequence.png)
+
 ## API Endpoints
 
 See a full documentation here [API Documentation](https://documenter.getpostman.com/view/13853356/2s93RTQsZz)
 
 This project exposes the following endpoints:
 
-### GET /users
+<details>
+  <summary><strong>/auth</strong></code></summary>
 
-Returns a list of all users.
+### POST /auth/register
 
----
-
-### POST /users
-
-Creates a new user.
+Register a new user.
 
 Request Body:
 
@@ -45,6 +52,39 @@ Request Body:
 - `password` (string, required) - The password of the user.
 
 ---
+
+### POST /auth/login
+
+Login a new user.
+
+Request Body:
+
+- `username` (string, required) - The username of the user.
+- `password` (string, required) - The password of the user.
+
+---
+
+</details>
+
+<details>
+  <summary><strong>/users</strong></code></summary>
+
+### GET /users/me
+
+Get currently logged in user.
+
+---
+
+### GET /users/ _(Ignore this unimportant endpoint :()_
+
+Greet unauthenticated user.
+
+---
+
+</details>
+
+<details>
+  <summary><strong>/tasks</strong></code></summary>
 
 ### GET /tasks `OR` /tasks?q=play
 
@@ -111,15 +151,13 @@ Request Body:
 
 Deletes a specific task.
 
-Parameters:
+parameters:
 
-- `id` (string, required) - The ID of the user to delete.
+- `id` (string, required) - the id of the user to delete.
 
 ---
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+</details>
 
 ## Tech Stack
 
