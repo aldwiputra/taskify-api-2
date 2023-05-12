@@ -115,10 +115,9 @@ export class TaskService {
         throw new NotFoundException(`Could not find the task with id: ${id}`);
       }
 
-      return await this.prisma.task.updateMany({
+      return await this.prisma.task.update({
         where: {
           id: id,
-          userId: userId,
         },
         data: input,
       });
