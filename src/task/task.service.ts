@@ -29,7 +29,7 @@ export class TaskService {
       },
     });
 
-    if (task.userId !== userId) {
+    if (task && task.userId !== userId) {
       throw new UnauthorizedException(
         `Not authorized to get task of id: ${id}`,
       );
