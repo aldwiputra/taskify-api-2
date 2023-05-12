@@ -1,6 +1,6 @@
 # Database REST API - Aldwiputra
 
-Simple REST API for Taskify built with [Nest](https://github.com/nestjs/nest).
+REST API for Taskify built with [Nest](https://github.com/nestjs/nest).
 
 ## Installation
 
