@@ -6,7 +6,7 @@ REST API for Taskify built with [Nest](https://github.com/nestjs/nest).
 
 To install the application, follow these steps:
 
-Clone the repository: `git clone https://github.com/revou-fsse-1/w13-my-database-api-aldwiputra.git`
+Clone the repository: `git clone https://github.com/revou-fsse-1/w14-my-authorized-api-aldwiputra.git`
 
 Install the dependencies: `pnpm install`
 

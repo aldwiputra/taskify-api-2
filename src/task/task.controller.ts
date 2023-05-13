@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { PatchTaskInput, PutTaskInput, TaskInput } from './dto/task.dto';
 import { TaskService } from './task.service';
-import { AuthenticatedGuard } from 'src/guard/authenticated.guard';
+import { AuthenticatedGuard } from 'src/auth/guard/authenticated.guard';
 import { CurrentUser } from 'src/decorators/user.decorator';
 import { AlteredUser } from 'src/types/global.type';
 

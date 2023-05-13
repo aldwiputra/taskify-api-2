@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/decorators/user.decorator';
-import { AuthenticatedGuard } from 'src/guard/authenticated.guard';
+import { AuthenticatedGuard } from 'src/auth/guard/authenticated.guard';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AlteredUser } from 'src/types/global.type';
 

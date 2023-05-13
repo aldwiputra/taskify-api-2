@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { UserInput } from 'src/user/dto/user.dto';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from 'src/guard/local.guard';
+import { LocalAuthGuard } from 'src/auth/guard/local.guard';
 import { Session as SessionType } from 'express-session';
 import { Response } from 'express';
-import { UnauthenticatedGuard } from 'src/guard/unauthenticated.guard';
+import { UnauthenticatedGuard } from 'src/auth/guard/unauthenticated.guard';
 
 @Controller('auth')
 export class AuthController {
